@@ -1,8 +1,11 @@
 package shop;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import static java.util.stream.Collectors.toList;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -30,7 +33,9 @@ public class Main {
         products.add(boysproduct2);
 
 
-        List<Product> bookList = products.stream().filter(product -> product.getCategory().equals("book") && product.getPrice() > 100).toList();
+        List<Product> bookList = products.stream()
+                .filter(product -> product.getCategory().equals("book") && product.getPrice() > 100)
+                .toList();
 
 
         Order order1 = new Order("Pending",products, costumer1);
@@ -44,7 +49,9 @@ public class Main {
 
 
         Predicate<Product> isBaby = product -> product.getCategory().equals("baby");
-        List<Order> orders = orderList.stream().filter(order -> order.getProductList().stream().anyMatch(isBaby)).toList();
+        List<Order> orders = orderList.stream()
+                .filter(order -> order.getProductList().stream().anyMatch(isBaby))
+                .toList();
 
         Predicate<Product> isBoys = product -> product.getCategory().equals("boys");
         List<Product> discountedProductsList = products.stream().filter(isBoys).toList();
@@ -54,8 +61,17 @@ public class Main {
             product.setPrice(discount);
         });
 
+        List<Product> orderProductsTier = orderList.stream()
+                .filter(order -> order.getCostumer().getTier() == 2 &&
+                        order.getOrderDate().isAfter(LocalDate.parse("2024-07-01")) &&
+                        order.getOrderDate().isBefore(LocalDate.parse("2024-08-01")))
+                .flatMap(order -> order.getProductList().stream()).toList();
 
-        System.out.println(discountedProductsList);
+
+        System.out.println(orderProductsTier);
+//        System.out.println(orderList);
+
+//        System.out.println(discountedProductsList);
 
 
 
