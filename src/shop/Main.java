@@ -45,9 +45,17 @@ public class Main {
 
         Predicate<Product> isBaby = product -> product.getCategory().equals("baby");
         List<Order> orders = orderList.stream().filter(order -> order.getProductList().stream().anyMatch(isBaby)).toList();
-        
 
-        System.out.println(orders);
+        Predicate<Product> isBoys = product -> product.getCategory().equals("boys");
+        List<Product> discountedProductsList = products.stream().filter(isBoys).toList();
+
+        discountedProductsList.forEach(product -> {
+            double discount = product.getPrice();
+            product.setPrice(discount);
+        });
+
+
+        System.out.println(discountedProductsList);
 
 
 
