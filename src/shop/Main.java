@@ -42,7 +42,11 @@ public class Main {
         orderList.add(order2);
         orderList.add(order3);
 
-        List<Order> orders = orderList.stream().filter(order -> order.getProductList()).toList();
+
+        Predicate<Product> isBaby 
+        List<Order> orders = orderList.stream().filter(order -> order.getProductList().stream().anyMatch(product -> product.getCategory().equals("baby"))).toList();
+
+        System.out.println(orders);
 
 
 
